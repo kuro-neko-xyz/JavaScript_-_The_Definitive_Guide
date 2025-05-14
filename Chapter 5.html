@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      function factorial(x) {
+        if (!(x > 0)) throw new Error("x must be a positive integer.");
+        let f;
+        for (f = 1; x > 1; f *= x, x-- /* empty */);
+        return f;
+      }
+
+      try {
+        let n = Number(prompt("Please enter a positive integer", ""));
+        let f = factorial(n);
+        alert(n + "! = " + f);
+      } catch (ex) {
+        alert(ex);
+      }
+      
+    </script>
+  </head>
+</html>

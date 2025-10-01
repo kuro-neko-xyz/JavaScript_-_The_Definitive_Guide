@@ -50,6 +50,13 @@
 // console.log(dataView.getUint8(3)); // 0
 // console.log(dataView.getUint16(0, false)); // 1
 
-const regex = new RegExp(/[^]*/);
+// const regex = new RegExp(/[^]*/);
 
-console.log(regex.test("abc")); // true
+// console.log(regex.test("abc")); // true
+
+const words = /\b\p{Alphabetic}+\b/gu;
+const text = "This is a naïve test of the matchAll() method.";
+
+for (let word of text.matchAll(words)) {
+  console.log(`found '${word[0]}' at index ${word.index}.`);
+}

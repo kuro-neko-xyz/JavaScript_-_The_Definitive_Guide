@@ -54,9 +54,37 @@
 
 // console.log(regex.test("abc")); // true
 
-const words = /\b\p{Alphabetic}+\b/gu;
-const text = "This is a naïve test of the matchAll() method.";
+// const words = /\b\p{Alphabetic}+\b/gu;
+// const text = "This is a naïve test of the matchAll() method.";
 
-for (let word of text.matchAll(words)) {
-  console.log(`found '${word[0]}' at index ${word.index}.`);
-}
+// for (let word of text.matchAll(words)) {
+//   console.log(`found '${word[0]}' at index ${word.index}.`);
+// }
+
+console.log("---");
+console.log("1. The RegExp.prototype.test() method");
+
+const regex_1 = /^[yY]ol(ingo|o)$/;
+
+console.log(regex_1.test("yolo")); // true
+console.log(regex_1.test("Yolingo")); // true
+console.log(regex_1.test("yol")); // false
+console.log(regex_1.test("yolinga")); // false
+
+console.log("---");
+
+console.log("2. The String.prototype.match() method");
+
+const str_2 = "yolo Yolingo yol yoloing";
+
+const globalRegex_2 = /[yY]ol(?<test>ingo|o)/g;
+const globalMatch_2 = str_2.match(globalRegex_2);
+
+console.log(globalMatch_2); // [ 'yolo', 'Yolingo', 'yolo' ]
+
+const nonGlobalRegex_2 = RegExp(globalRegex_2.source, "");
+const nonGlobalMatch_2 = str_2.match(nonGlobalRegex_2);
+
+console.log(nonGlobalMatch_2); // [ 'yolo', 'o', index: 0, input: 'yolo Yolingo yol yoloing', groups: undefined ]
+
+console.log("---");

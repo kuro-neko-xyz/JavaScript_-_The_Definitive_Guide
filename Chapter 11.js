@@ -85,6 +85,34 @@ console.log(globalMatch_2); // [ 'yolo', 'Yolingo', 'yolo' ]
 const nonGlobalRegex_2 = RegExp(globalRegex_2.source, "");
 const nonGlobalMatch_2 = str_2.match(nonGlobalRegex_2);
 
-console.log(nonGlobalMatch_2); // [ 'yolo', 'o', index: 0, input: 'yolo Yolingo yol yoloing', groups: undefined ]
+console.log(nonGlobalMatch_2); // [ 'yolo', 'o', index: 0, input: 'yolo Yolingo yol yoloing', groups: { test: 'o' } ]
+
+console.log("---");
+
+console.log("3. The String.prototype.matchAll() method");
+
+const str_3 = "yolo Yolingo yol yoloing";
+
+const regex_3 = /[yY]ol(?<test>ingo|o)/g;
+const matchAll_3 = str_3.matchAll(regex_3);
+
+for (const match of matchAll_3) {
+  console.log(match);
+}
+
+console.log("---");
+
+console.log("4. The RegExp.prototype.exec() method");
+
+const regex_4 = /[yY]ol(?<test>ingo|o)/g;
+const str_4 = "yolo Yolingo yol yoloing";
+
+let execMatch_4;
+
+while ((execMatch_4 = regex_4.exec(str_4)) !== null) {
+  console.log(execMatch_4);
+}
+
+console.log(regex_4.lastIndex); // 0
 
 console.log("---");

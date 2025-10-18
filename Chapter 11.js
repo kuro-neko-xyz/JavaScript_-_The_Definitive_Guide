@@ -116,3 +116,11 @@ while ((execMatch_4 = regex_4.exec(str_4)) !== null) {
 console.log(regex_4.lastIndex); // 0
 
 console.log("---");
+
+console.log("5. The Date() constructor");
+
+const date_5 = new Date(2025, 6);
+
+console.log(date_5.toISOString()); // 2025-07-01T00:00:00.000Z
+
+console.log("---");

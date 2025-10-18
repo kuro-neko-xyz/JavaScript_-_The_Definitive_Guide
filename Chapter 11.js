@@ -124,3 +124,23 @@ const date_5 = new Date(2025, 6);
 console.log(date_5.toISOString()); // 2025-07-01T00:00:00.000Z
 
 console.log("---");
+
+console.log("6. Date setters and getters");
+
+const date_6 = new Date();
+
+date_6.setFullYear(date_6.getFullYear() + 1);
+
+console.log(date_6);
+
+// You can append "UTC" to the method names to use the UTC time zone
+
+console.log("---");
+
+console.log('7. "negative" date values');
+
+const date_7 = new Date(-1000000000000);
+
+console.log(date_7.toISOString()); // 1938-04-24T22:13:20.000Z
+
+console.log("---");

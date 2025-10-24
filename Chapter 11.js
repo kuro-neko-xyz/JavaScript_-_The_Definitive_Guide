@@ -72,7 +72,6 @@ console.log(regex_1.test("yol")); // false
 console.log(regex_1.test("yolinga")); // false
 
 console.log("---");
-
 console.log("2. The String.prototype.match() method");
 
 const str_2 = "yolo Yolingo yol yoloing";
@@ -88,7 +87,6 @@ const nonGlobalMatch_2 = str_2.match(nonGlobalRegex_2);
 console.log(nonGlobalMatch_2); // [ 'yolo', 'o', index: 0, input: 'yolo Yolingo yol yoloing', groups: { test: 'o' } ]
 
 console.log("---");
-
 console.log("3. The String.prototype.matchAll() method");
 
 const str_3 = "yolo Yolingo yol yoloing";
@@ -101,7 +99,6 @@ for (const match of matchAll_3) {
 }
 
 console.log("---");
-
 console.log("4. The RegExp.prototype.exec() method");
 
 const regex_4 = /[yY]ol(?<test>ingo|o)/g;
@@ -116,7 +113,6 @@ while ((execMatch_4 = regex_4.exec(str_4)) !== null) {
 console.log(regex_4.lastIndex); // 0
 
 console.log("---");
-
 console.log("5. The Date() constructor");
 
 const date_5 = new Date(2025, 6);
@@ -124,7 +120,6 @@ const date_5 = new Date(2025, 6);
 console.log(date_5.toISOString()); // 2025-07-01T00:00:00.000Z
 
 console.log("---");
-
 console.log("6. Date setters and getters");
 
 const date_6 = new Date();
@@ -136,7 +131,6 @@ console.log(date_6);
 // You can append "UTC" to the method names to use the UTC time zone
 
 console.log("---");
-
 console.log('7. "negative" date values');
 
 const date_7 = new Date(-1000000000000);
@@ -144,3 +138,42 @@ const date_7 = new Date(-1000000000000);
 console.log(date_7.toISOString()); // 1938-04-24T22:13:20.000Z
 
 console.log("---");
+console.log("8. Example of custom Error class");
+
+class HTTPError extends Error {
+  constructor(status, statusText, url) {
+    super(`${status} ${statusText}: ${url}`);
+    this.status = status;
+    this.statusText = statusText;
+    this.url = url;
+  }
+
+  get name() {
+    return "HTTPError";
+  }
+}
+
+let error_8 = new HTTPError(404, "Not Found", "https://example.com");
+
+console.log(error_8.status); // 404
+console.log(error_8.message); // 404 Not Found: https://example.com
+console.log(error_8.name); // HTTPError
+
+console.log("---");
+console.log("9. Testing the the JSON.stringify() method");
+
+const uint_9 = new Uint8Array([1, 2, 3]);
+const array_9 = [1, 2, 3];
+
+const obj_9 = {
+  uint: uint_9,
+  array: array_9,
+};
+
+const json_9 = JSON.stringify(obj_9);
+
+console.log(json_9); // {"uint":{"0":1,"1":2,"2":3},"array":[1,2,3]}
+
+const reconstructedObj_9 = JSON.parse(json_9);
+
+console.log(reconstructedObj_9);

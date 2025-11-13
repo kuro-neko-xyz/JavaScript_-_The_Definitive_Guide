@@ -177,3 +177,74 @@ console.log(json_9); // {"uint":{"0":1,"1":2,"2":3},"array":[1,2,3]}
 const reconstructedObj_9 = JSON.parse(json_9);
 
 console.log(reconstructedObj_9);
+
+console.log("---");
+console.log("10. JSON.stringify()");
+
+const obj_10 = {
+  name: "Test Object",
+  data: new Uint8Array([4, 5, 6]),
+  toJSON() {
+    return {
+      name: this.name,
+      data: Array.from(this.data),
+    };
+  },
+};
+
+console.log(JSON.stringify(obj_10)); // {"name":"Test Object","data":[4,5,6]}
+console.log(JSON.stringify(obj_10, null, 2));
+/*
+{
+  "name": "Test Object",
+  "data": [
+    4,
+    5,
+    6
+  ]
+}
+*/
+
+console.log("---");
+console.log("11. JSON.parse() with reviver");
+
+const reviver_11 = (key, value) => {
+  if (key[0] === "_") {
+    return undefined;
+  }
+
+  const ISODateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+
+  if (typeof value === "string" && ISODateRegex.test(value)) {
+    return new Date(value);
+  }
+
+  return value;
+};
+
+const json_11 = `{
+  "name": "Test Object",
+  "_private": "This should be removed",
+  "createdAt": "2023-10-01T12:00:00.000Z"
+}`;
+
+const parsedObj_11 = JSON.parse(json_11, reviver_11);
+
+console.log(parsedObj_11);
+
+console.log("---");
+console.log("12. JSON.stringify second argument");
+
+const symbol_12 = Symbol("symbol");
+
+const obj_12 = {
+  name: "Test Object",
+  value: 42,
+  extra: "This should be excluded",
+  [symbol_12]: "This is a symbol property",
+};
+
+const json_12 = JSON.stringify(obj_12, ["name", "value", symbol_12]);
+
+console.log(json_12);
+console.log(obj_12);

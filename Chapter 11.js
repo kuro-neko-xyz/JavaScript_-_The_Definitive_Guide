@@ -248,3 +248,75 @@ const json_12 = JSON.stringify(obj_12, ["name", "value", symbol_12]);
 
 console.log(json_12);
 console.log(obj_12);
+
+console.log("---");
+console.log("13. console.trace");
+
+const functionC = () => {
+  console.trace();
+};
+
+const functionB = () => {
+  functionC();
+};
+
+const functionA = () => {
+  functionB();
+};
+
+functionA();
+
+console.log("---");
+console.log("14. console.count and console.countReset");
+
+for (let i = 0; i < 3; i++) {
+  console.count("Loop Count");
+}
+
+console.count("Not Loop Count");
+
+console.count("Loop Count");
+
+console.countReset("Loop Count");
+
+console.count("Loop Count");
+
+console.log("---");
+console.log("15. console.group and console.groupEnd");
+
+console.log("Start of the log");
+console.group("Grouped Messages");
+console.log("Message 1");
+console.log("Message 2");
+console.groupEnd();
+console.log("End of the log");
+
+console.log("---");
+console.log("16. console.time, console.timeLog and console.timeEnd");
+
+console.time("Processing Time");
+let sum = 0;
+
+for (let i = 1; i <= 1_000_000; i++) {
+  sum += i;
+}
+
+console.timeLog("Processing Time");
+
+for (let i = 1; i <= 1_000_000; i++) {
+  sum += i;
+}
+
+console.timeEnd("Processing Time");
+
+console.log("---");
+console.log("17. setTimeout(), setInterval() and clearInterval()");
+
+let clock = setInterval(() => {
+  console.clear();
+  console.log(new Date().toLocaleTimeString());
+}, 1000);
+
+setTimeout(() => {
+  clearInterval(clock);
+}, 10000);

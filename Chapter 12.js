@@ -116,3 +116,60 @@ const evenArray_5 = filter(array_5, (x) => x % 2 === 0);
 
 console.log(`${evenArray_5}`);
 console.log(...evenArray_5);
+
+console.log("---");
+console.log(
+  "6. String.prototype.match() & String.prototype.matchAll() [REVIEW]",
+);
+
+const regex_6 = /y(o|a)lo(aventuras)?/;
+const string_6 = "yolo yalo yoloaventuras";
+const array_6 = string_6.match(regex_6);
+
+console.log(array_6);
+console.log(array_6.index);
+
+const regex_6_1 = new RegExp(regex_6.source, "g");
+
+const iterator_6 = string_6.matchAll(regex_6_1);
+
+for (let i of iterator_6) {
+  console.log(i);
+}
+
+console.log("---");
+console.log("7. Lazy Iterator");
+
+const words = (s) => {
+  const regex_7 = /\s+|$/g;
+  regex_7.lastIndex = s.match(/[^ ]/).index;
+
+  return {
+    [Symbol.iterator]() {
+      return this;
+    },
+
+    next() {
+      const start_7 = regex_7.lastIndex;
+
+      if (start_7 < s.length) {
+        let match_7 = regex_7.exec(s);
+        if (match_7) {
+          return {
+            value: s.slice(start_7, match_7.index),
+          };
+        }
+      }
+      return {
+        done: true,
+      };
+    },
+  };
+};
+
+const string_7 = " abc def  ghi! ";
+const iterator_7 = words(string_7);
+
+console.log(iterator_7.next());
+console.log(iterator_7.next());
+console.log(iterator_7.next());

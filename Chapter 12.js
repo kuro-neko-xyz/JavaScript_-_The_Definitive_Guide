@@ -173,3 +173,143 @@ const iterator_7 = words(string_7);
 console.log(iterator_7.next());
 console.log(iterator_7.next());
 console.log(iterator_7.next());
+
+console.log("---");
+console.log("8. Iterator objects return method");
+
+class Iterable_8 {
+  [Symbol.iterator]() {
+    let init = 0;
+
+    return {
+      next() {
+        if (init < 5) {
+          return { value: init++, done: false };
+        } else {
+          return { done: true };
+        }
+      },
+      return() {
+        console.log("Cleaning up!");
+        return { done: true };
+      },
+    };
+  }
+}
+
+const iterable_8 = new Iterable_8();
+
+for (let i of iterable_8) {
+  console.log(i);
+  if (i > 2) {
+    break;
+  }
+}
+
+console.log("---");
+console.log("9. Generator functions");
+
+function* generator_9() {
+  yield 2;
+  yield 3;
+  yield 5;
+  yield 7;
+}
+
+const primes_9 = generator_9();
+
+for (let p of primes_9) {
+  console.log(p);
+}
+
+console.log("---");
+console.log("10. Generator functions with parameters");
+
+const range_10 = function* (from, to) {
+  for (let i = from; i <= to; i++) {
+    yield i;
+  }
+};
+
+const r_10 = range_10(1, 10);
+
+console.log(...r_10);
+
+console.log("---");
+console.log("11. Generator methods");
+
+class range_11 {
+  constructor(from, to) {
+    this.from = from;
+    this.to = to;
+  }
+
+  *[Symbol.iterator]() {
+    for (let i = Math.ceil(this.from); i <= this.to; i++) yield i;
+  }
+}
+
+const r_11 = new range_11(1, 11);
+
+console.log(...r_11);
+
+console.log("---");
+console.log("12. Generator functions that generate their values");
+
+const fibonacci_12 = function* () {
+  let x = 0,
+    y = 1;
+
+  for (;;) {
+    yield y;
+    [x, y] = [y, x + y];
+  }
+};
+
+const nthFibonacci_12 = (n) => {
+  for (let i of fibonacci_12()) {
+    if (n-- <= 0) return i;
+  }
+};
+
+console.log(nthFibonacci_12(0));
+console.log(nthFibonacci_12(1));
+console.log(nthFibonacci_12(2));
+console.log(nthFibonacci_12(3));
+console.log(nthFibonacci_12(4));
+console.log(nthFibonacci_12(5));
+console.log(nthFibonacci_12(20));
+
+function* take_12(n, iterable) {
+  let i = iterable[Symbol.iterator]();
+
+  while (n-- > 0) {
+    let next = i.next();
+    if (next.done) return;
+    else yield next.value;
+  }
+}
+
+console.log(...take_12(5, fibonacci_12()));
+
+const zip_12 = function* (...iterables) {
+  let index = 0;
+  let iterators = iterables.map((iterable) => iterable[Symbol.iterator]());
+
+  while (iterators.length > 0) {
+    if (index >= iterators.length) {
+      index = 0;
+    }
+
+    let next = iterators[index].next();
+
+    if (next.done) {
+      iterators.splice(index, 1);
+    } else {
+      yield next.value;
+      index++;
+    }
+  }
+};
+
+console.log(...zip_12("abc", [1, 2, 3]));

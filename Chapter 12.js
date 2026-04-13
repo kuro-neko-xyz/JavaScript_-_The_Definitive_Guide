@@ -313,3 +313,15 @@ const zip_12 = function* (...iterables) {
 };
 
 console.log(...zip_12("abc", [1, 2, 3]));
+
+console.log("---");
+console.log("13. yield* does not work within forEach()");
+
+function* sequence_13(...iterables) {
+  // iterables.forEach((iterable) => yield* iterable); <-- This does not work because yield* is not valid in a non-generator function
+  for (let iterable of iterables) {
+    yield* iterable;
+  }
+}
+
+console.log(...sequence_13("abc", [1, 2, 3]));

@@ -71,3 +71,70 @@ const json_2 = getJSON_2(url_2);
 json_2.then((value) => {
   console.log(value);
 });
+
+console.log("---");
+console.log("3. Chaining an arbitrary number of promises");
+
+const url_3 = "http://localhost:3000/app/usage?app-id=com.apple.Music";
+
+function fetchSequentially_3(urls) {
+  const bodies = [];
+
+  function fetchOne(url) {
+    return fetch(url)
+      .then((response) => response.text())
+      .then((body) => {
+        bodies.push(body);
+      });
+  }
+
+  let p = Promise.resolve(undefined);
+
+  for (let url of urls) {
+    p = p.then(() => fetchOne(url));
+  }
+
+  return p.then(() => bodies);
+}
+
+const bodies_3 = fetchSequentially_3([url_3]);
+
+bodies_3.then((bodies) => {
+  console.log("3.3.3.3.3.3.3.3.3.3.3.");
+  console.log(bodies);
+  console.log("3.3.3.3.3.3.3.3.3.3.3.");
+});
+
+console.log("---");
+console.log("4. Sequentially creating promises");
+
+const url_4 = "http://localhost:3000/app/usage?app-id=com.apple.Music";
+
+function promiseSequence_4(inputs, promiseMaker) {
+  inputs = Array.from(inputs);
+
+  function handleNextInput(outputs) {
+    if (!inputs.length) {
+      return outputs;
+    } else {
+      let nextInput = inputs.shift();
+      return promiseMaker(nextInput)
+        .then((output) => outputs.concat(output))
+        .then(handleNextInput);
+    }
+  }
+
+  return Promise.resolve([]).then(handleNextInput);
+}
+
+function fetchBody_4(url) {
+  return fetch(url).then((r) => r.text());
+}
+
+promiseSequence_4([url_4], fetchBody_4)
+  .then((body) => {
+    console.log("4.4.4.4.4.4.4.4.4.4.");
+    console.log(body);
+    console.log("4.4.4.4.4.4.4.4.4.4.");
+  })
+  .catch((e) => console.error(e));
